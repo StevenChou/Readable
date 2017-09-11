@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import _ from 'lodash'
 
-import { fetchCategories } from './../actions';
+import { fetchCategories, fetchPosts } from './../actions';
+import ListView from './list_view'
 
 class PostsList extends Component {
   componentDidMount() {
     this.props.fetchCategories();
+    this.props.fetchPosts();
   }
 
   renderCategory() {
@@ -15,13 +18,17 @@ class PostsList extends Component {
     if (categories !== 'undefined') {
       return categories.map(cate => (
         <div className="col-sm-4" key={cate.path}>
-          <Link to={`/${cate.path}`} className="category-margin">{cate.name}</Link>
+          <Link to={`/${cate.path}`} className="category-margin">
+            {cate.name}
+          </Link>
         </div>
       ));
     }
   }
 
   render() {
+    const { posts } = this.props;
+
     return (
       <div>
         <h1 className="project-title">Readable</h1>
@@ -33,17 +40,19 @@ class PostsList extends Component {
             Add A Post
           </Link>
         </div>
-        <h3>Posts</h3>
-        <p>123</p>
+        <h5>Posts sorting by: <a href="#">Date</a><a className="a-margin" href="#">Score</a></h5>
+        <ListView posts={posts} />
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { categories: state.categories };
+  return { categories: state.categories, posts: state.posts };
 }
 
 // 第一個參數 state
 // export default connect(null, { fetchPosts: fetchPosts })(PostsIndex)
-export default connect(mapStateToProps, { fetchCategories })(PostsList);
+export default connect(mapStateToProps, { fetchCategories, fetchPosts })(
+  PostsList
+);

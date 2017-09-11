@@ -12,3 +12,11 @@
 .category-margin {
   margin: 0 20px;
 }
+
+.span-margin {
+  margin: 0 0 0 5px;
+}
+
+.a-margin {
+  margin-left: 5px
+}

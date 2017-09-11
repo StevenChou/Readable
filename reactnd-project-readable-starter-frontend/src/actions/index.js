@@ -1,24 +1,25 @@
-import axios from 'axios'
+import axios from 'axios';
 
-export const FETCH_CATEGORIES = 'fetch_categories'
-export const CREATE_POST = 'create_post'
+export const FETCH_CATEGORIES = 'fetch_categories';
+export const CREATE_POST = 'create_post';
+export const FETCH_POSTS = 'fetch_posts';
 
-const api = "http://localhost:5001"
+const api = 'http://localhost:5001';
 const headers = {
-  'Accept': 'application/json',
-  'Authorization': '1234'
-}
+  Accept: 'application/json',
+  Authorization: '1234'
+};
 
 // action creator
 export function fetchCategories() {
   const request = fetch(`${api}/categories`, { headers })
-  .then(res => res.json())
-  .then(data => data.categories)
+    .then(res => res.json())
+    .then(data => data.categories);
 
   return {
     type: FETCH_CATEGORIES,
     payload: request
-  }
+  };
 }
 
 // action creator
@@ -31,10 +32,25 @@ export function createPost(values, callback) {
       ...headers,
       'Content-Type': 'application/json'
     }
-  }).then(() => callback())
+  }).then(() => callback());
 
   return {
     type: CREATE_POST,
     payload: request
-  }
+  };
+}
+
+// action creator
+export function fetchPosts() {
+  const request = axios({
+    method: 'get',
+    url: `${api}/posts`,
+    headers: {
+      ...headers
+    }
+  })
+  return {
+    type: FETCH_POSTS,
+    payload: request
+  };
 }
