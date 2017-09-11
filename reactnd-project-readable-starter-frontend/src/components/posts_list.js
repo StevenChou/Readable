@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
 
-import { fetchCategories, fetchPosts, deletePost } from './../actions';
+import { fetchCategories, fetchPosts, deletePost, vote } from './../actions';
 import ListView from './list_view';
 
 class PostsList extends Component {
@@ -27,13 +26,17 @@ class PostsList extends Component {
   }
 
   deleteClick(postId) {
-    console.log('trace postId', postId);
+    // console.log('trace postId', postId);
     this.props.deletePost(postId, () => {
       this.props.history.push('/');
     });
+  }
 
-    // bad code[when the post is still being fetched from backend this component will render]
-    // this.props.deletePost(this.props.post.id)
+  vote(postId, option) {
+    console.log("trace vote", postId, option)
+    this.props.vote(postId, option, () => {
+      this.props.history.push('/');
+    });
   }
 
   render() {
@@ -51,12 +54,15 @@ class PostsList extends Component {
           </Link>
         </div>
         <h5>
-          Posts sorting by: <a href="#">Date</a>
-          <a className="a-margin" href="#">
+          Posts sorting by: <button className="btn-link">Date</button>
+          <button className="btn-link a-margin">
             Score
-          </a>
+          </button>
         </h5>
-        <ListView posts={posts} onDeleteClick={this.deleteClick.bind(this)} />
+        <ListView posts={posts}
+         onDeleteClick={this.deleteClick.bind(this)}
+         onVote={this.vote.bind(this)}
+          />
       </div>
     );
   }
@@ -71,5 +77,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   fetchCategories,
   fetchPosts,
-  deletePost
+  deletePost,
+  vote
 })(PostsList);

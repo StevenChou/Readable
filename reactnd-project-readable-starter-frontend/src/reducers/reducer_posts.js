@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { FETCH_POSTS, DELETE_POST } from './../actions';
+import { FETCH_POSTS, DELETE_POST, VOTE } from './../actions';
 
 // receive previous state
 // 設定 state 初始值
@@ -15,6 +15,20 @@ export default function(state = {}, action) {
     case DELETE_POST:
       // if the state object has a key of the posts id just drop it
       return _.omit(state, action.payload);
+    case VOTE:
+      const newState = { ...state };
+
+      if (action.option === 'upVote') {
+        newState[action.payload]['voteScore'] = ++newState[
+          action.payload
+        ]['voteScore'];
+      } else if (action.option === 'downVote') {
+        newState[action.payload]['voteScore'] = --newState[
+          action.payload
+        ]['voteScore'];
+      }
+
+      return newState;
     default:
       console.log('## action.type', action.type);
       return state;

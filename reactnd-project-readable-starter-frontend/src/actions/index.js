@@ -4,6 +4,7 @@ export const FETCH_CATEGORIES = 'fetch_categories';
 export const CREATE_POST = 'create_post';
 export const FETCH_POSTS = 'fetch_posts';
 export const DELETE_POST = 'delete_post'
+export const VOTE = "vote"
 
 const api = 'http://localhost:5001';
 const headers = {
@@ -69,5 +70,23 @@ export function deletePost(id, callback) {
   return {
     type: DELETE_POST,
     payload: id
+  }
+}
+
+export function vote(id, option, callback) {
+  const request = axios({
+    method: 'post',
+    url: `${api}/posts/${id}`,
+    data: { 'option': option },
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => callback());
+
+  return {
+    type: VOTE,
+    payload: id,
+    option: option
   }
 }

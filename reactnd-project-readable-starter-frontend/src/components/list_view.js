@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 class ListView extends Component {
   static propTypes = {
     posts: PropTypes.object.isRequired,
-    onDeleteClick: PropTypes.func.isRequired
-  }
+    onDeleteClick: PropTypes.func.isRequired,
+    onVote: PropTypes.func.isRequired
+  };
 
   renderPost() {
-    const { posts, onDeleteClick } = this.props;
+    const { posts, onDeleteClick, onVote } = this.props;
     // console.log('## posts', posts)
     return _.map(posts, post => {
       if (!post.deleted) {
@@ -21,10 +22,18 @@ class ListView extends Component {
             <span className="span-margin">|Comments:</span>
             <span className="span-margin">|Score:{post.voteScore}</span>
             <span className="span-margin">
-              |Vote:<a href="#">Up</a>
-              <a className="a-margin" href="#">
+              |Vote:<button
+                className="btn-link"
+                onClick={event => onVote(post.id, "upVote")}
+              >
+                Up
+              </button>
+              <button
+                className="btn-link a-margin"
+                onClick={event => onVote(post.id, "downVote")}
+              >
                 Down
-              </a>
+              </button>
             </span>
             <div className="text-xs-right">
               <Link className="btn btn-primary" to="/posts/new">
