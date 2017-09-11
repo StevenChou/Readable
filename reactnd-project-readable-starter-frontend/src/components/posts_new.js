@@ -23,9 +23,14 @@ class PostsNew extends Component {
   onSubmit(values) {
     values['id'] = _uuid();
     values['timestamp'] = Date.now();
+    const { back } = this.props.match.params;
 
     this.props.createPost(values, () => {
-      this.props.history.push('/');
+      if (back === 'index') {
+        this.props.history.push('/');
+      } else {
+        this.props.history.push(`/${back}`);
+      }
     });
   }
 

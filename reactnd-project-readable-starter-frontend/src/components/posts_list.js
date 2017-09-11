@@ -35,7 +35,7 @@ class PostsList extends Component {
   vote(postId, option) {
     console.log("trace vote", postId, option)
     this.props.vote(postId, option, () => {
-      this.props.history.push('/');
+      // this.props.history.push('/');
     });
   }
 
@@ -49,7 +49,7 @@ class PostsList extends Component {
         <div className="row">{this.renderCategory()}</div>
         <h2 className="category-title">All Posts</h2>
         <div className="text-xs-right">
-          <Link className="btn btn-primary" to="/posts/new">
+          <Link className="btn btn-primary" to="/posts/new/index">
             Add A Post
           </Link>
         </div>

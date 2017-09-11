@@ -3,8 +3,9 @@ import axios from 'axios';
 export const FETCH_CATEGORIES = 'fetch_categories';
 export const CREATE_POST = 'create_post';
 export const FETCH_POSTS = 'fetch_posts';
-export const DELETE_POST = 'delete_post'
-export const VOTE = "vote"
+export const DELETE_POST = 'delete_post';
+export const VOTE = 'vote';
+export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
 
 const api = 'http://localhost:5001';
 const headers = {
@@ -50,7 +51,7 @@ export function fetchPosts() {
     headers: {
       ...headers
     }
-  })
+  });
   return {
     type: FETCH_POSTS,
     payload: request
@@ -65,19 +66,19 @@ export function deletePost(id, callback) {
     headers: {
       ...headers
     }
-  }).then(() => callback())
+  }).then(() => callback());
 
   return {
     type: DELETE_POST,
     payload: id
-  }
+  };
 }
 
 export function vote(id, option, callback) {
-  const request = axios({
+  axios({
     method: 'post',
     url: `${api}/posts/${id}`,
-    data: { 'option': option },
+    data: { option: option },
     headers: {
       ...headers,
       'Content-Type': 'application/json'
@@ -88,5 +89,20 @@ export function vote(id, option, callback) {
     type: VOTE,
     payload: id,
     option: option
-  }
+  };
+}
+
+export function fetchCategoryPosts(category) {
+  const request = axios({
+    method: 'get',
+    url: `${api}/${category}/posts`,
+    headers: {
+      ...headers
+    }
+  });
+
+  return {
+    type: FETCH_CATEGORY_POSTS,
+    payload: request
+  };
 }
