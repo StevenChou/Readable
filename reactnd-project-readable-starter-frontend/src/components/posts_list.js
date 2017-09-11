@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import _ from 'lodash'
+import _ from 'lodash';
 
-import { fetchCategories, fetchPosts } from './../actions';
-import ListView from './list_view'
+import { fetchCategories, fetchPosts, deletePost } from './../actions';
+import ListView from './list_view';
 
 class PostsList extends Component {
   componentDidMount() {
@@ -26,6 +26,16 @@ class PostsList extends Component {
     }
   }
 
+  deleteClick(postId) {
+    console.log('trace postId', postId);
+    this.props.deletePost(postId, () => {
+      this.props.history.push('/');
+    });
+
+    // bad code[when the post is still being fetched from backend this component will render]
+    // this.props.deletePost(this.props.post.id)
+  }
+
   render() {
     const { posts } = this.props;
 
@@ -40,8 +50,13 @@ class PostsList extends Component {
             Add A Post
           </Link>
         </div>
-        <h5>Posts sorting by: <a href="#">Date</a><a className="a-margin" href="#">Score</a></h5>
-        <ListView posts={posts} />
+        <h5>
+          Posts sorting by: <a href="#">Date</a>
+          <a className="a-margin" href="#">
+            Score
+          </a>
+        </h5>
+        <ListView posts={posts} onDeleteClick={this.deleteClick.bind(this)} />
       </div>
     );
   }
@@ -53,6 +68,8 @@ function mapStateToProps(state) {
 
 // 第一個參數 state
 // export default connect(null, { fetchPosts: fetchPosts })(PostsIndex)
-export default connect(mapStateToProps, { fetchCategories, fetchPosts })(
-  PostsList
-);
+export default connect(mapStateToProps, {
+  fetchCategories,
+  fetchPosts,
+  deletePost
+})(PostsList);

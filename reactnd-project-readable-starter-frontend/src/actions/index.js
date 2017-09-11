@@ -3,6 +3,7 @@ import axios from 'axios';
 export const FETCH_CATEGORIES = 'fetch_categories';
 export const CREATE_POST = 'create_post';
 export const FETCH_POSTS = 'fetch_posts';
+export const DELETE_POST = 'delete_post'
 
 const api = 'http://localhost:5001';
 const headers = {
@@ -53,4 +54,20 @@ export function fetchPosts() {
     type: FETCH_POSTS,
     payload: request
   };
+}
+
+// action creator
+export function deletePost(id, callback) {
+  axios({
+    method: 'delete',
+    url: `${api}/posts/${id}`,
+    headers: {
+      ...headers
+    }
+  }).then(() => callback())
+
+  return {
+    type: DELETE_POST,
+    payload: id
+  }
 }
