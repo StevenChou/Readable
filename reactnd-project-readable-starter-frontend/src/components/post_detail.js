@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import serializeForm from 'form-serialize';
 
-import { fetchPost, deletePost, vote, fetchComments, commentVote, deleteComment } from './../actions';
+import { _uuid } from '../utils/helpers';
+
+import {
+  fetchPost,
+  deletePost,
+  vote,
+  fetchComments,
+  commentVote,
+  deleteComment,
+  addComment
+} from './../actions';
 import CommentsView from './comments_view';
 
 class PostDetail extends Component {
@@ -43,9 +54,24 @@ class PostDetail extends Component {
   }
 
   voteComment(commentId, option) {
-    console.log("trace voteComment", commentId, option)
+    console.log('trace voteComment', commentId, option);
     this.props.commentVote(commentId, option, () => {
       // this.props.history.push('/');
+    });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    const { post_id } = this.props.match.params;
+    const values = serializeForm(event.target, { hash: true })
+    values['parentId'] = post_id
+    values['id'] = _uuid();
+    values['timestamp'] = Date.now();
+    // console.log('values=', values);
+
+    this.bodyInput.value = '';
+    this.authorInput.value = '';
+    this.props.addComment(values, () => {
     });
   }
 
@@ -69,37 +95,49 @@ class PostDetail extends Component {
           Delete
         </button>
         <button className="btn btn-primary pull-xs-right">Edit</button>
-        <br/><br/>
+        <br />
+        <br />
         <h3>Title: {post.title}</h3>
         <h6>Body: {post.body}</h6>
         <h6>Author: {post.author}</h6>
         <h6>Comments: {}</h6>
         <h6>Score: {post.voteScore}</h6>
         <h6>
-        Vote:<button
-          className="btn-link"
-          onClick={event => this.onVote(post.id, 'upVote')}
-        >
-          Up
-        </button>
-        <button
-          className="btn-link a-margin"
-          onClick={event => this.onVote(post.id, 'downVote')}
-        >
-          Down
-        </button>
+          Vote:<button
+            className="btn-link"
+            onClick={event => this.onVote(post.id, 'upVote')}
+          >
+            Up
+          </button>
+          <button
+            className="btn-link a-margin"
+            onClick={event => this.onVote(post.id, 'downVote')}
+          >
+            Down
+          </button>
         </h6>
         <hr/>
         <h5>
           Comments sorting by: <button className="btn-link">Date</button>
-          <button className="btn-link a-margin">
-            Score
-          </button>
+          <button className="btn-link a-margin">Score</button>
         </h5>
-        <CommentsView comments={comments}
-         onDeleteClick={this.deleteCommentClick.bind(this)}
-         onVote={this.voteComment.bind(this)}
-          />
+        <CommentsView
+          comments={comments}
+          onDeleteClick={this.deleteCommentClick.bind(this)}
+          onVote={this.voteComment.bind(this)}
+        />
+        <hr/>
+        <form onSubmit={this.handleSubmit} className="form-inline">
+          <div className="form-group">
+            <label htmlFor="body">Comment:</label>
+            <input type="text" className="form-control a-margin" name="body" id="body" ref={(input) => { this.bodyInput = input; }}/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="author" className="a-margin">Author:</label>
+            <input type="text" className="form-control a-margin" name="author" id="author" ref={(input) => { this.authorInput = input; }}/>
+          </div>
+          <button className="a-margin btn btn-info">Add Comment</button>
+        </form>
       </div>
     );
   }
@@ -113,6 +151,12 @@ function mapStateToProps({ posts, comments }, ownProps) {
   return { post: posts[ownProps.match.params.post_id], posts, comments };
 }
 
-export default connect(mapStateToProps, { fetchPost, deletePost, vote, fetchComments, commentVote, deleteComment })(
-  PostDetail
-);
+export default connect(mapStateToProps, {
+  fetchPost,
+  deletePost,
+  vote,
+  fetchComments,
+  commentVote,
+  deleteComment,
+  addComment
+})(PostDetail);

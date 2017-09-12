@@ -11,8 +11,9 @@ export const CATE_VOTE = 'cate_vote';
 export const COMMENT_VOTE = 'comment_vote';
 export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
 export const FETCH_COMMENTS = 'fetch_comments';
+export const ADD_COMMENT = 'add_comment';
 
-const api = 'http://localhost:5001';
+const api = 'http://localhost:3001';
 const headers = {
   Accept: 'application/json',
   Authorization: '1234'
@@ -44,6 +45,32 @@ export function createPost(values, callback) {
 
   return {
     type: CREATE_POST,
+    payload: request
+  };
+}
+
+export function addComment(values, callback) {
+  // const request = axios({
+  //   method: 'post',
+  //   url: `${api}/comments`,
+  //   data: values,
+  //   headers: {
+  //     ...headers,
+  //     'Content-Type': 'application/json'
+  //   }
+  // }).then(res => res.json());
+
+  const request = fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(values)
+  }).then(res => res.json())
+
+  return {
+    type: ADD_COMMENT,
     payload: request
   };
 }
