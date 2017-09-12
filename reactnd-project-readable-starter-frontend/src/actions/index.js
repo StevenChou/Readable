@@ -7,6 +7,7 @@ export const FETCH_POST = 'fetch_post';
 export const DELETE_POST = 'delete_post';
 export const VOTE = 'vote';
 export const CATE_VOTE = 'cate_vote';
+export const COMMENT_VOTE = 'comment_vote';
 export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
 export const FETCH_COMMENTS = 'fetch_comments';
 
@@ -138,6 +139,24 @@ export function cateVote(id, option, callback) {
 
   return {
     type: CATE_VOTE,
+    payload: id,
+    option: option
+  };
+}
+
+export function commentVote(id, option, callback) {
+  axios({
+    method: 'post',
+    url: `${api}/comments/${id}`,
+    data: { option: option },
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => callback());
+
+  return {
+    type: COMMENT_VOTE,
     payload: id,
     option: option
   };

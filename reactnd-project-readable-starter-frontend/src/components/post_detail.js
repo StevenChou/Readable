@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchPost, deletePost, vote, fetchComments } from './../actions';
+import { fetchPost, deletePost, vote, fetchComments, commentVote } from './../actions';
+import CommentsView from './comments_view';
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -34,8 +35,22 @@ class PostDetail extends Component {
     });
   }
 
+  deleteCommentClick(postId) {
+    console.log('trace postId', postId);
+    // this.props.deletePost(postId, () => {
+    //   this.props.history.push('/');
+    // });
+  }
+
+  voteComment(commentId, option) {
+    console.log("trace voteComment", commentId, option)
+    this.props.commentVote(commentId, option, () => {
+      // this.props.history.push('/');
+    });
+  }
+
   render() {
-    const { post } = this.props;
+    const { post, comments } = this.props;
 
     // console.log('@@ check post', post);
     // *** 當 component 第一次 render 時，post is undefined!!
@@ -75,19 +90,29 @@ class PostDetail extends Component {
         </button>
         </h6>
         <hr/>
+        <h5>
+          Comments sorting by: <button className="btn-link">Date</button>
+          <button className="btn-link a-margin">
+            Score
+          </button>
+        </h5>
+        <CommentsView comments={comments}
+         onDeleteClick={this.deleteCommentClick.bind(this)}
+         onVote={this.voteComment.bind(this)}
+          />
       </div>
     );
   }
 }
 
-function mapStateToProps({ posts }, ownProps) {
+function mapStateToProps({ posts, comments }, ownProps) {
   // console.log('[trace1] ownProps.match.params.id=', ownProps.match.params.post_id)
   // console.log('[trace3] posts[ownProps.match.params.id]=', posts[ownProps.match.params.post_id])
   // console.log('[trace4] posts', posts)
   // *** 故意加 posts，因為 post 變化不會自動觸發 ***
-  return { post: posts[ownProps.match.params.post_id], posts };
+  return { post: posts[ownProps.match.params.post_id], posts, comments };
 }
 
-export default connect(mapStateToProps, { fetchPost, deletePost, vote, fetchComments })(
+export default connect(mapStateToProps, { fetchPost, deletePost, vote, fetchComments, commentVote })(
   PostDetail
 );
