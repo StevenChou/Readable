@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchPost, deletePost, vote, fetchComments, commentVote } from './../actions';
+import { fetchPost, deletePost, vote, fetchComments, commentVote, deleteComment } from './../actions';
 import CommentsView from './comments_view';
 
 class PostDetail extends Component {
@@ -35,11 +35,11 @@ class PostDetail extends Component {
     });
   }
 
-  deleteCommentClick(postId) {
-    console.log('trace postId', postId);
-    // this.props.deletePost(postId, () => {
-    //   this.props.history.push('/');
-    // });
+  deleteCommentClick(commentId) {
+    console.log('trace commentId', commentId);
+    this.props.deleteComment(commentId, () => {
+      // this.props.history.push('/');
+    });
   }
 
   voteComment(commentId, option) {
@@ -113,6 +113,6 @@ function mapStateToProps({ posts, comments }, ownProps) {
   return { post: posts[ownProps.match.params.post_id], posts, comments };
 }
 
-export default connect(mapStateToProps, { fetchPost, deletePost, vote, fetchComments, commentVote })(
+export default connect(mapStateToProps, { fetchPost, deletePost, vote, fetchComments, commentVote, deleteComment })(
   PostDetail
 );

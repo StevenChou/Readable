@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { FETCH_COMMENTS, COMMENT_VOTE } from './../actions';
+import { FETCH_COMMENTS, COMMENT_VOTE, DELETE_COMMENT } from './../actions';
 
 export default function(state = {}, action) {
   switch (action.type) {
@@ -9,6 +9,8 @@ export default function(state = {}, action) {
       console.log('$$ fetch_commentws', action.payload.data); // [post1, post2]
       // 我們要轉化為 { 4: post }
       return _.mapKeys(action.payload.data, 'id');
+    case DELETE_COMMENT:
+      return _.omit(state, action.payload);
     case COMMENT_VOTE:
       console.log('$$ reducer comments')
       const newState = { ...state };

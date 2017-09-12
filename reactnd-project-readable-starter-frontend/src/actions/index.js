@@ -5,6 +5,7 @@ export const CREATE_POST = 'create_post';
 export const FETCH_POSTS = 'fetch_posts';
 export const FETCH_POST = 'fetch_post';
 export const DELETE_POST = 'delete_post';
+export const DELETE_COMMENT = 'delete_comment';
 export const VOTE = 'vote';
 export const CATE_VOTE = 'cate_vote';
 export const COMMENT_VOTE = 'comment_vote';
@@ -104,6 +105,21 @@ export function deletePost(id, callback) {
 
   return {
     type: DELETE_POST,
+    payload: id
+  };
+}
+
+export function deleteComment(id, callback) {
+  axios({
+    method: 'delete',
+    url: `${api}/comments/${id}`,
+    headers: {
+      ...headers
+    }
+  }).then(() => callback());
+
+  return {
+    type: DELETE_COMMENT,
     payload: id
   };
 }
