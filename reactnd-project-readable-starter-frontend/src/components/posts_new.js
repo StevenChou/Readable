@@ -7,6 +7,13 @@ import { createPost } from './../actions';
 import { _uuid } from '../utils/helpers';
 
 class PostsNew extends Component {
+  componentDidMount() {
+    const { type, back } = this.props.match.params;
+    console.log('@trace type', type)
+    console.log('@trace back', back)
+    console.log('@categories', this.props.categories.length)
+  }
+
   renderField(field) {
     const { meta: { touched, error } } = field;
     const className = `form-group ${touched && error ? 'has-danger' : ''} `;
@@ -14,7 +21,26 @@ class PostsNew extends Component {
     return (
       <div className={className}>
         <label>{field.label}</label>
-        <input className="form-control" type="text" {...field.input} />
+        <input className="form-control" type="text" {...field.input}/>
+        <div className="text-help">{touched ? error : ''}</div>
+      </div>
+    );
+  }
+
+  renderSelField(field) {
+    const { meta: { touched, error } } = field;
+    const className = `form-group ${touched && error ? 'has-danger' : ''} `;
+    return (
+      <div className={className}>
+        <label>{field.label}</label>
+        <select className="form-control" {...field.input}>
+          <option value="">Select a category...</option>
+          {this.props.categories.map(category => (
+            <option value={category.name} key={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
         <div className="text-help">{touched ? error : ''}</div>
       </div>
     );
@@ -25,6 +51,7 @@ class PostsNew extends Component {
     values['timestamp'] = Date.now();
     const { back } = this.props.match.params;
 
+    // console.log('!!! values', values)
     this.props.createPost(values, () => {
       if (back === 'index') {
         this.props.history.push('/');
@@ -35,7 +62,14 @@ class PostsNew extends Component {
   }
 
   render() {
+    console.log('trace init ', this.props.initialValues)
     const { handleSubmit } = this.props;
+    const { back } = this.props.match.params;
+    let backURL = ''
+    if (back === 'index')
+      backURL = '/'
+    else
+      backURL = `/${back}`
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -49,13 +83,12 @@ class PostsNew extends Component {
         <Field
           label="Categories"
           name="category"
-          component={this.renderField}
-        />
+          component={this.renderSelField.bind(this)}/>
 
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
-        <Link to="/" className="btn btn-danger">
+        <Link to={backURL} className="btn btn-danger a-margin">
           Cancel
         </Link>
       </form>
@@ -66,7 +99,7 @@ class PostsNew extends Component {
 // It be call automatically when submit
 function validate(values) {
   const errors = {};
-
+  // console.log('???? values', values)
   // Validate the inputs from 'values'
   if (!values.title || values.title.length < 3) {
     // field name property
@@ -85,10 +118,14 @@ function validate(values) {
 
   if (!values.category) {
     // field name property
-    errors.category = 'Enter some  category!';
+    errors.category = 'Select the category!';
   }
 
   return errors;
+}
+
+function mapStateToProps(state) {
+  return { categories: state.categories };
 }
 
 export default reduxForm({
@@ -97,5 +134,5 @@ export default reduxForm({
   form: 'PostsNewForm' // name of the form
 })(
   // return react component
-  connect(null, { createPost })(PostsNew)
+  connect(mapStateToProps, { createPost })(PostsNew)
 );

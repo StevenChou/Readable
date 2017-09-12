@@ -5,6 +5,7 @@ export const CREATE_POST = 'create_post';
 export const FETCH_POSTS = 'fetch_posts';
 export const DELETE_POST = 'delete_post';
 export const VOTE = 'vote';
+export const CATE_VOTE = 'cate_vote'
 export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
 
 const api = 'http://localhost:5001';
@@ -87,6 +88,24 @@ export function vote(id, option, callback) {
 
   return {
     type: VOTE,
+    payload: id,
+    option: option
+  };
+}
+
+export function cateVote(id, option, callback) {
+  axios({
+    method: 'post',
+    url: `${api}/posts/${id}`,
+    data: { option: option },
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => callback());
+
+  return {
+    type: CATE_VOTE,
     payload: id,
     option: option
   };

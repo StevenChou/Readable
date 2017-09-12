@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchCategoryPosts, deletePost, vote } from './../actions';
+import { fetchCategoryPosts, deletePost, cateVote } from './../actions';
 import ListView from './list_view';
 
 class PostsCategory extends Component {
@@ -20,7 +20,7 @@ class PostsCategory extends Component {
 
   vote(postId, option) {
     console.log("trace vote", postId, option)
-    this.props.vote(postId, option, () => {
+    this.props.cateVote(postId, option, () => {
       // this.props.history.push('/');
     });
   }
@@ -49,6 +49,7 @@ class PostsCategory extends Component {
         <ListView posts={categoryPosts}
          onDeleteClick={this.deleteClick.bind(this)}
          onVote={this.vote.bind(this)}
+         back={category}
           />
       </div>
     )
@@ -62,5 +63,5 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   fetchCategoryPosts,
   deletePost,
-  vote
+  cateVote
 })(PostsCategory);

@@ -7,11 +7,12 @@ class ListView extends Component {
   static propTypes = {
     posts: PropTypes.object.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
-    onVote: PropTypes.func.isRequired
+    onVote: PropTypes.func.isRequired,
+    back: PropTypes.string.isRequired
   };
 
   renderPost() {
-    const { posts, onDeleteClick, onVote } = this.props;
+    const { posts, onDeleteClick, onVote, back } = this.props;
     // console.log('## posts', posts)
     return _.map(posts, post => {
       if (!post.deleted) {
@@ -36,7 +37,7 @@ class ListView extends Component {
               </button>
             </span>
             <div className="text-xs-right">
-              <Link className="btn btn-primary" to="/posts/new">
+              <Link className="btn btn-primary" to={`/posts/edit/${back}`}>
                 EDIT
               </Link>
 

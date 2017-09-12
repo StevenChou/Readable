@@ -62,6 +62,7 @@ class PostsList extends Component {
         <ListView posts={posts}
          onDeleteClick={this.deleteClick.bind(this)}
          onVote={this.vote.bind(this)}
+         back="index"
           />
       </div>
     );
