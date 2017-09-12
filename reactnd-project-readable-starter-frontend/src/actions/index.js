@@ -3,10 +3,12 @@ import axios from 'axios';
 export const FETCH_CATEGORIES = 'fetch_categories';
 export const CREATE_POST = 'create_post';
 export const FETCH_POSTS = 'fetch_posts';
+export const FETCH_POST = 'fetch_post';
 export const DELETE_POST = 'delete_post';
 export const VOTE = 'vote';
-export const CATE_VOTE = 'cate_vote'
+export const CATE_VOTE = 'cate_vote';
 export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
+export const FETCH_COMMENTS = 'fetch_comments';
 
 const api = 'http://localhost:5001';
 const headers = {
@@ -55,6 +57,36 @@ export function fetchPosts() {
   });
   return {
     type: FETCH_POSTS,
+    payload: request
+  };
+}
+
+export function fetchPost(id) {
+  const request = axios({
+    method: 'get',
+    url: `${api}/posts/${id}`,
+    headers: {
+      ...headers
+    }
+  });
+
+  return {
+    type: FETCH_POST,
+    payload: request
+  };
+}
+
+// action creator
+export function fetchComments(id) {
+  const request = axios({
+    method: 'get',
+    url: `${api}/posts/${id}/comments`,
+    headers: {
+      ...headers
+    }
+  });
+  return {
+    type: FETCH_COMMENTS,
     payload: request
   };
 }

@@ -11,6 +11,7 @@ import reducers from './reducers';
 import PostsList from './components/posts_list'
 import PostsCategory from './components/posts_category'
 import PostsNew from './components/posts_new'
+import PostDetail from './components/post_detail'
 import registerServiceWorker from './registerServiceWorker';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
@@ -19,6 +20,7 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <Switch>
+        <Route path="/:category/:post_id" component={PostDetail} />
         <Route path="/posts/:type/:back" component={PostsNew} />
         <Route path="/:category" component={PostsCategory} />
         <Route path="/" component={PostsList} />

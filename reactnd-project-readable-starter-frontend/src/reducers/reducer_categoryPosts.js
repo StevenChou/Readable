@@ -23,7 +23,7 @@ export default function(state = {}, action) {
 
         return newState;
     default:
-      console.log('## action.type', action.type);
+      console.log('##[categoryPosts] action.type', action.type);
       return state;
   }
 }
