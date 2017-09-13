@@ -12,6 +12,9 @@ export const COMMENT_VOTE = 'comment_vote';
 export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
 export const FETCH_COMMENTS = 'fetch_comments';
 export const ADD_COMMENT = 'add_comment';
+export const ORDER_BY = 'order_by';
+export const CATE_ORDER_BY = 'cate_order_by';
+export const COMM_ORDER_BY = 'comm_order_by';
 
 const api = 'http://localhost:3001';
 const headers = {
@@ -217,5 +220,26 @@ export function fetchCategoryPosts(category) {
   return {
     type: FETCH_CATEGORY_POSTS,
     payload: request
+  };
+}
+
+export function orderBy(attr) {
+  return {
+    type: ORDER_BY,
+    payload: attr
+  };
+}
+
+export function cateOrderBy(attr) {
+  return {
+    type: CATE_ORDER_BY,
+    payload: attr
+  };
+}
+
+export function commOrderBy(attr) {
+  return {
+    type: COMM_ORDER_BY,
+    payload: attr
   };
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchCategoryPosts, deletePost, cateVote } from './../actions';
+import { fetchCategoryPosts, deletePost, cateVote, cateOrderBy } from './../actions';
 import ListView from './list_view';
 
 class PostsCategory extends Component {
@@ -25,6 +25,10 @@ class PostsCategory extends Component {
     });
   }
 
+  orderBy = attr => {
+    this.props.cateOrderBy(attr)
+  };
+
   render() {
     const { category } = this.props.match.params
     const { categoryPosts } = this.props;
@@ -41,10 +45,13 @@ class PostsCategory extends Component {
           </Link>
         </div>
         <h5>
-          Posts sorting by: <button className="btn-link">Date</button>
-          <button className="btn-link a-margin">
-            Score
-          </button>
+        Posts sorting by: <button className="btn btn-link" onClick={() => this.orderBy('timestamp')}>Date</button>
+        <button
+          className="btn btn-link a-margin"
+          onClick={() => this.orderBy('voteScore')}
+        >
+          Score
+        </button>
         </h5>
         <ListView posts={categoryPosts}
          onDeleteClick={this.deleteClick.bind(this)}
@@ -63,5 +70,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   fetchCategoryPosts,
   deletePost,
-  cateVote
+  cateVote,
+  cateOrderBy
 })(PostsCategory);

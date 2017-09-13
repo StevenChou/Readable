@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
-import { FETCH_CATEGORY_POSTS, DELETE_POST, CATE_VOTE } from './../actions';
+import { FETCH_CATEGORY_POSTS, DELETE_POST, CATE_VOTE, CATE_ORDER_BY } from './../actions';
 
 export default function(state = {}, action) {
   switch (action.type) {
     case FETCH_CATEGORY_POSTS:
-      return _.mapKeys(action.payload.data, 'id');
+      return _.mapKeys(_.orderBy(action.payload.data, ['voteScore'], ['desc']), 'id');
     case DELETE_POST:
       return _.omit(state, action.payload);
     case CATE_VOTE:
@@ -22,6 +22,9 @@ export default function(state = {}, action) {
         }
 
         return newState;
+    case CATE_ORDER_BY:
+      const newState2 = { ...state }
+      return _.mapKeys(_.orderBy(newState2, [action.payload], ['desc']), 'id');
     default:
       console.log('##[categoryPosts] action.type', action.type);
       return state;

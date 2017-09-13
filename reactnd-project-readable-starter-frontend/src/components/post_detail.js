@@ -12,13 +12,14 @@ import {
   fetchComments,
   commentVote,
   deleteComment,
-  addComment
+  addComment,
+  commOrderBy
 } from './../actions';
 import CommentsView from './comments_view';
 
 class PostDetail extends Component {
   componentDidMount() {
-    const { category, post_id } = this.props.match.params;
+    const { post_id } = this.props.match.params;
     // console.log('trace 11')
     // 如果不存在，才發出請求
     if (!this.props.post) {
@@ -75,6 +76,10 @@ class PostDetail extends Component {
     });
   }
 
+  orderBy = attr => {
+    this.props.commOrderBy(attr)
+  };
+
   render() {
     const { post, comments } = this.props;
 
@@ -118,8 +123,13 @@ class PostDetail extends Component {
         </h6>
         <hr/>
         <h5>
-          Comments sorting by: <button className="btn-link">Date</button>
-          <button className="btn-link a-margin">Score</button>
+          Comments sorting by: <button className="btn btn-link" onClick={() => this.orderBy('timestamp')}>Date</button>
+          <button
+            className="btn btn-link a-margin"
+            onClick={() => this.orderBy('voteScore')}
+          >
+            Score
+          </button>
         </h5>
         <CommentsView
           comments={comments}
@@ -158,5 +168,6 @@ export default connect(mapStateToProps, {
   fetchComments,
   commentVote,
   deleteComment,
-  addComment
+  addComment,
+  commOrderBy
 })(PostDetail);

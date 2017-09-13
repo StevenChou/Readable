@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { FETCH_POSTS, FETCH_POST, DELETE_POST, VOTE } from './../actions';
+import { FETCH_POSTS, FETCH_POST, DELETE_POST, VOTE, ORDER_BY } from './../actions';
 
 // receive previous state
 // 設定 state 初始值
@@ -11,7 +11,7 @@ export default function(state = {}, action) {
       console.log('$$ fetch_posts', action.payload.data); // [post1, post2]
 
       // 我們要轉化為 { 4: post }
-      return _.mapKeys(action.payload.data, 'id');
+      return _.mapKeys(_.orderBy(action.payload.data, ['voteScore'], ['desc']), 'id');
     case FETCH_POST:
       // ES5
       // const post = action.payload.data
@@ -39,6 +39,9 @@ export default function(state = {}, action) {
       }
 
       return newState;
+    case ORDER_BY:
+      const newState2 = { ...state }
+      return _.mapKeys(_.orderBy(newState2, [action.payload], ['desc']), 'id');
     default:
       console.log('##[posts] action.type', action.type);
       return state;

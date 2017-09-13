@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchCategories, fetchPosts, deletePost, vote } from './../actions';
+import { fetchCategories, fetchPosts, deletePost, vote, orderBy } from './../actions';
 import ListView from './list_view';
 
 class PostsList extends Component {
@@ -33,11 +33,15 @@ class PostsList extends Component {
   }
 
   vote(postId, option) {
-    console.log("trace vote", postId, option)
+    console.log('trace vote', postId, option);
     this.props.vote(postId, option, () => {
       // this.props.history.push('/');
     });
   }
+
+  orderBy = attr => {
+    this.props.orderBy(attr)
+  };
 
   render() {
     const { posts } = this.props;
@@ -54,16 +58,20 @@ class PostsList extends Component {
           </Link>
         </div>
         <h5>
-          Posts sorting by: <button className="btn-link">Date</button>
-          <button className="btn-link a-margin">
+          Posts sorting by: <button className="btn btn-link" onClick={() => this.orderBy('timestamp')}>Date</button>
+          <button
+            className="btn btn-link a-margin"
+            onClick={() => this.orderBy('voteScore')}
+          >
             Score
           </button>
         </h5>
-        <ListView posts={posts}
-         onDeleteClick={this.deleteClick.bind(this)}
-         onVote={this.vote.bind(this)}
-         back="index"
-          />
+        <ListView
+          posts={posts}
+          onDeleteClick={this.deleteClick.bind(this)}
+          onVote={this.vote.bind(this)}
+          back="index"
+        />
       </div>
     );
   }
@@ -79,5 +87,6 @@ export default connect(mapStateToProps, {
   fetchCategories,
   fetchPosts,
   deletePost,
-  vote
+  vote,
+  orderBy
 })(PostsList);
