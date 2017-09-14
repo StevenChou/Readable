@@ -82,7 +82,7 @@ class PostsCategory extends Component {
         <ListView posts={categoryPosts}
          onDeleteClick={this.deleteClick.bind(this)}
          onVote={this.vote.bind(this)}
-         back={category}
+         back={'cate'}
           />
       </div>
     )

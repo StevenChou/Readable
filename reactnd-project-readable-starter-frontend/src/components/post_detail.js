@@ -23,10 +23,10 @@ class PostDetail extends Component {
     const { post_id } = this.props.match.params;
     // console.log('trace 11')
     // 如果不存在，才發出請求
-    if (!this.props.post) {
+    //if (!this.props.post) {
       // console.log('trace 22')
       this.props.fetchPost(post_id);
-    }
+    //}
 
     this.props.fetchComments(post_id);
   }
@@ -62,23 +62,22 @@ class PostDetail extends Component {
     });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault()
+  handleSubmit = event => {
+    event.preventDefault();
     const { post_id } = this.props.match.params;
-    const values = serializeForm(event.target, { hash: true })
-    values['parentId'] = post_id
+    const values = serializeForm(event.target, { hash: true });
+    values['parentId'] = post_id;
     values['id'] = _uuid();
     values['timestamp'] = Date.now();
     // console.log('values=', values);
 
     this.bodyInput.value = '';
     this.authorInput.value = '';
-    this.props.addComment(values, () => {
-    });
-  }
+    this.props.addComment(values, () => {});
+  };
 
   orderBy = attr => {
-    this.props.commOrderBy(attr)
+    this.props.commOrderBy(attr);
   };
 
   render() {
@@ -101,7 +100,12 @@ class PostDetail extends Component {
         >
           Delete
         </button>
-        <button className="btn btn-primary pull-xs-right">Edit</button>
+        <Link
+          className="btn btn-primary pull-xs-right"
+          to={`/posts/edit/${post.category}/${post.id}/detail`}
+        >
+          EDIT
+        </Link>
         <br />
         <br />
         <h3>Title: {post.title}</h3>
@@ -123,9 +127,15 @@ class PostDetail extends Component {
             Down
           </button>
         </h6>
-        <hr/>
+        <hr />
         <h5>
-          Comments sorting by: <button className="btn btn-link" onClick={() => this.orderBy('timestamp')}>Date</button>
+          Comments sorting by:{' '}
+          <button
+            className="btn btn-link"
+            onClick={() => this.orderBy('timestamp')}
+          >
+            Date
+          </button>
           <button
             className="btn btn-link a-margin"
             onClick={() => this.orderBy('voteScore')}
@@ -140,15 +150,33 @@ class PostDetail extends Component {
           category={category}
           postId={post_id}
         />
-        <hr/>
+        <hr />
         <form onSubmit={this.handleSubmit} className="form-inline">
           <div className="form-group">
             <label htmlFor="body">Comment:</label>
-            <input type="text" className="form-control a-margin" name="body" id="body" ref={(input) => { this.bodyInput = input; }}/>
+            <input
+              type="text"
+              className="form-control a-margin"
+              name="body"
+              id="body"
+              ref={input => {
+                this.bodyInput = input;
+              }}
+            />
           </div>
           <div className="form-group">
-            <label htmlFor="author" className="a-margin">Author:</label>
-            <input type="text" className="form-control a-margin" name="author" id="author" ref={(input) => { this.authorInput = input; }}/>
+            <label htmlFor="author" className="a-margin">
+              Author:
+            </label>
+            <input
+              type="text"
+              className="form-control a-margin"
+              name="author"
+              id="author"
+              ref={input => {
+                this.authorInput = input;
+              }}
+            />
           </div>
           <button className="a-margin btn btn-info">Add Comment</button>
         </form>

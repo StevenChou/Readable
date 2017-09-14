@@ -18,6 +18,7 @@ export const ORDER_BY = 'order_by';
 export const CATE_ORDER_BY = 'cate_order_by';
 export const COMM_ORDER_BY = 'comm_order_by';
 export const EDIT_COMMENT = 'edit_comment';
+export const EDIT_POST = 'edit_post';
 
 const api = 'http://localhost:3001';
 const headers = {
@@ -302,6 +303,23 @@ export function editComment(values, commentId, callback) {
 
   return {
     type: EDIT_COMMENT,
+    payload: request
+  };
+}
+
+export function editPost(values, postId, callback) {
+  const request = axios({
+    method: 'put',
+    url: `${api}/posts/${postId}`,
+    data: values,
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    }
+  }).then(() => callback());
+
+  return {
+    type: EDIT_POST,
     payload: request
   };
 }

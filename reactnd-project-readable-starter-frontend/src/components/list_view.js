@@ -37,7 +37,7 @@ class ListView extends Component {
               </button>
             </span>
             <div className="text-xs-right">
-              <Link className="btn btn-primary" to={`/posts/edit/${back}`}>
+              <Link className="btn btn-primary" to={`/posts/edit/${post.category}/${post.id}/${back}`}>
                 EDIT
               </Link>
 
