@@ -40,7 +40,7 @@ export default function(state = {}, action) {
       return _.mapKeys(_.orderBy(newState2, [action.payload], ['desc']), 'id');
     case FETCH_CATE_COMMENTS_MA:
       if (!_.isEmpty(action.payload)) {
-        console.log('??? >> action.payload', action.payload)
+        // console.log('??? >> action.payload', action.payload);
         const postId = action.payload[0]['parentId'];
         const newState3 = { ...state };
         newState3[postId]['commNum'] = action.payload.length;
@@ -49,7 +49,7 @@ export default function(state = {}, action) {
 
       return state;
     default:
-      console.log('##[categoryPosts] action.type', action.type);
+      // console.log('##[categoryPosts] action.type', action.type);
       return state;
   }
 }

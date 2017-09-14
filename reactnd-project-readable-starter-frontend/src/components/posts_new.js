@@ -8,10 +8,10 @@ import { _uuid } from '../utils/helpers';
 
 class PostsNew extends Component {
   componentDidMount() {
-    const { type, back } = this.props.match.params;
-    console.log('@trace type', type)
-    console.log('@trace back', back)
-    console.log('@categories', this.props.categories.length)
+    // const { type, back } = this.props.match.params;
+    // console.log('@trace type', type);
+    // console.log('@trace back', back);
+    // console.log('@categories', this.props.categories.length);
   }
 
   renderField(field) {
@@ -21,7 +21,7 @@ class PostsNew extends Component {
     return (
       <div className={className}>
         <label>{field.label}</label>
-        <input className="form-control" type="text" {...field.input}/>
+        <input className="form-control" type="text" {...field.input} />
         <div className="text-help">{touched ? error : ''}</div>
       </div>
     );
@@ -62,14 +62,12 @@ class PostsNew extends Component {
   }
 
   render() {
-    console.log('trace init ', this.props.initialValues)
+    // console.log('trace init ', this.props.initialValues)
     const { handleSubmit } = this.props;
     const { back } = this.props.match.params;
-    let backURL = ''
-    if (back === 'index')
-      backURL = '/'
-    else
-      backURL = `/${back}`
+    let backURL = '';
+    if (back === 'index') backURL = '/';
+    else backURL = `/${back}`;
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -83,7 +81,8 @@ class PostsNew extends Component {
         <Field
           label="Categories"
           name="category"
-          component={this.renderSelField.bind(this)}/>
+          component={this.renderSelField.bind(this)}
+        />
 
         <button type="submit" className="btn btn-primary">
           Submit

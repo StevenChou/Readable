@@ -21,12 +21,9 @@ class PostEdit extends Component {
   transformURL(back) {
     const { category, post_id } = this.props.match.params;
 
-    if(back === 'index')
-      return '/'
-    else if(back === 'cate')
-      return `/${category}`
-    else if(back === 'detail')
-      return `/${category}/${post_id}`
+    if (back === 'index') return '/';
+    else if (back === 'cate') return `/${category}`;
+    else if (back === 'detail') return `/${category}/${post_id}`;
   }
 
   render() {
@@ -70,11 +67,9 @@ class PostEdit extends Component {
 }
 
 function mapStateToProps({ posts, categoryPosts }, ownProps) {
-  const { post_id, back } = ownProps.match.params
-  if (back !== 'cate')
-    return { post: posts[post_id] };
-  else
-    return { post: categoryPosts[post_id] };
+  const { post_id, back } = ownProps.match.params;
+  if (back !== 'cate') return { post: posts[post_id] };
+  else return { post: categoryPosts[post_id] };
 }
 
 export default connect(mapStateToProps, {

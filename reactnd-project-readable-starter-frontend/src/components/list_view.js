@@ -25,19 +25,22 @@ class ListView extends Component {
             <span className="span-margin">
               |Vote:<button
                 className="btn-link"
-                onClick={event => onVote(post.id, "upVote")}
+                onClick={event => onVote(post.id, 'upVote')}
               >
                 Up
               </button>
               <button
                 className="btn-link a-margin"
-                onClick={event => onVote(post.id, "downVote")}
+                onClick={event => onVote(post.id, 'downVote')}
               >
                 Down
               </button>
             </span>
             <div className="text-xs-right">
-              <Link className="btn btn-primary" to={`/posts/edit/${post.category}/${post.id}/${back}`}>
+              <Link
+                className="btn btn-primary"
+                to={`/posts/edit/${post.category}/${post.id}/${back}`}
+              >
                 EDIT
               </Link>
 

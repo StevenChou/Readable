@@ -23,16 +23,8 @@ export default function(state = {}, action) {
         'id'
       );
     case FETCH_POST:
-      // ES5
-      // const post = action.payload.data
-      // const newState = { ...state }
-      // newState[post.id] = post
-      // return newState
-
-      // ES6
       return { ...state, [action.payload.data.id]: action.payload.data };
     case DELETE_POST:
-      // if the state object has a key of the posts id just drop it
       return _.omit(state, action.payload);
     case VOTE:
       console.log('$$ reducer posts');
@@ -54,16 +46,16 @@ export default function(state = {}, action) {
       return _.mapKeys(_.orderBy(newState2, [action.payload], ['desc']), 'id');
     case FETCH_COMMENTS_MA:
       if (action.payload.length !== 0) {
-        console.log('????!!!! comment num', action.payload[0]['parentId']);
+        // console.log('????!!!! comment num', action.payload[0]['parentId']);
         const postId = action.payload[0]['parentId'];
         const newState3 = { ...state };
         newState3[postId]['commNum'] = action.payload.length;
-        console.log('*** new state', newState3);
+        // console.log('*** new state', newState3);
         return newState3;
       }
       return state;
     default:
-      console.log('##[posts] action.type', action.type);
+      // console.log('##[posts] action.type', action.type);
       return state;
   }
 }

@@ -9,7 +9,7 @@ class CommentsView extends Component {
     onDeleteClick: PropTypes.func.isRequired,
     onVote: PropTypes.func.isRequired,
     postId: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired
   };
 
   renderComment() {
@@ -25,19 +25,22 @@ class CommentsView extends Component {
             <span className="span-margin">
               |Vote:<button
                 className="btn-link"
-                onClick={event => onVote(comment.id, "upVote")}
+                onClick={event => onVote(comment.id, 'upVote')}
               >
                 Up
               </button>
               <button
                 className="btn-link a-margin"
-                onClick={event => onVote(comment.id, "downVote")}
+                onClick={event => onVote(comment.id, 'downVote')}
               >
                 Down
               </button>
             </span>
             <div className="text-xs-right">
-              <Link className="btn btn-primary" to={`/comment/edit/${category}/${postId}/${comment.id}`}>
+              <Link
+                className="btn btn-primary"
+                to={`/comment/edit/${category}/${postId}/${comment.id}`}
+              >
                 EDIT
               </Link>
 
@@ -59,4 +62,4 @@ class CommentsView extends Component {
   }
 }
 
-export default CommentsView
+export default CommentsView;

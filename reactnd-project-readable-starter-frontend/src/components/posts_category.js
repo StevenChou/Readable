@@ -3,23 +3,29 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-import { fetchCategoryPosts, deletePost, cateVote, cateOrderBy, fetchCateCommentsMa } from './../actions';
+import {
+  fetchCategoryPosts,
+  deletePost,
+  cateVote,
+  cateOrderBy,
+  fetchCateCommentsMa
+} from './../actions';
 import ListView from './list_view';
 
 class PostsCategory extends Component {
   constructor(props) {
-    super(props)
-    this.flag = false
-    this.curCategory = null
-    this.preCategory = null
+    super(props);
+    this.flag = false;
+    this.curCategory = null;
+    this.preCategory = null;
   }
 
   componentDidMount() {
     const { category } = this.props.match.params;
     this.props.fetchCategoryPosts(category);
 
-    this.flag = false
-    this.curCategory = category
+    this.flag = false;
+    this.curCategory = category;
   }
 
   deleteClick(postId) {
@@ -30,33 +36,33 @@ class PostsCategory extends Component {
   }
 
   vote(postId, option) {
-    console.log("trace vote", postId, option)
+    console.log('trace vote', postId, option);
     this.props.cateVote(postId, option, () => {
       // this.props.history.push('/');
     });
   }
 
   orderBy = attr => {
-    this.props.cateOrderBy(attr)
+    this.props.cateOrderBy(attr);
   };
 
   combCommentNum(posts) {
-    const postKeys = _.keys(posts)
-    _.forEach(postKeys, (key) => {
-      this.props.fetchCateCommentsMa(key)
-    })
+    const postKeys = _.keys(posts);
+    _.forEach(postKeys, key => {
+      this.props.fetchCateCommentsMa(key);
+    });
   }
 
   render() {
-    const { category } = this.props.match.params
+    const { category } = this.props.match.params;
     const { categoryPosts } = this.props;
     const backURL = `/posts/new/${category}`;
 
     if (!_.isEmpty(categoryPosts) && this.flag === false) {
       if (this.preCategory !== this.curCategory) {
-        this.combCommentNum(categoryPosts)
-        this.flag = true
-        this.preCategory = category
+        this.combCommentNum(categoryPosts);
+        this.flag = true;
+        this.preCategory = category;
       }
     }
 
@@ -71,21 +77,28 @@ class PostsCategory extends Component {
           </Link>
         </div>
         <h5>
-        Posts sorting by: <button className="btn btn-link" onClick={() => this.orderBy('timestamp')}>Date</button>
-        <button
-          className="btn btn-link a-margin"
-          onClick={() => this.orderBy('voteScore')}
-        >
-          Score
-        </button>
+          Posts sorting by:{' '}
+          <button
+            className="btn btn-link"
+            onClick={() => this.orderBy('timestamp')}
+          >
+            Date
+          </button>
+          <button
+            className="btn btn-link a-margin"
+            onClick={() => this.orderBy('voteScore')}
+          >
+            Score
+          </button>
         </h5>
-        <ListView posts={categoryPosts}
-         onDeleteClick={this.deleteClick.bind(this)}
-         onVote={this.vote.bind(this)}
-         back={'cate'}
-          />
+        <ListView
+          posts={categoryPosts}
+          onDeleteClick={this.deleteClick.bind(this)}
+          onVote={this.vote.bind(this)}
+          back={'cate'}
+        />
       </div>
-    )
+    );
   }
 }
 

@@ -12,7 +12,7 @@ export const COMMENT_VOTE = 'comment_vote';
 export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
 export const FETCH_COMMENTS = 'fetch_comments';
 export const FETCH_COMMENTS_MA = 'fetch_comments_ma';
-export const FETCH_CATE_COMMENTS_MA = 'fetch_cate_comments_ma'
+export const FETCH_CATE_COMMENTS_MA = 'fetch_cate_comments_ma';
 export const ADD_COMMENT = 'add_comment';
 export const ORDER_BY = 'order_by';
 export const CATE_ORDER_BY = 'cate_order_by';
@@ -74,7 +74,7 @@ export function addComment(values, callback) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(values)
-  }).then(res => res.json())
+  }).then(res => res.json());
 
   return {
     type: ADD_COMMENT,
@@ -137,10 +137,11 @@ export function fetchCommentsMa(id) {
   //   }
   // });
 
-  const request = fetch(`${api}/posts/${id}/comments`, { headers })
-  .then(res => {
-    return res.json()
-  })
+  const request = fetch(`${api}/posts/${id}/comments`, {
+    headers
+  }).then(res => {
+    return res.json();
+  });
 
   return {
     type: FETCH_COMMENTS_MA,
@@ -158,10 +159,11 @@ export function fetchCateCommentsMa(id) {
   //   }
   // });
 
-  const request = fetch(`${api}/posts/${id}/comments`, { headers })
-  .then(res => {
-    return res.json()
-  })
+  const request = fetch(`${api}/posts/${id}/comments`, {
+    headers
+  }).then(res => {
+    return res.json();
+  });
 
   return {
     type: FETCH_CATE_COMMENTS_MA,

@@ -24,8 +24,8 @@ class PostDetail extends Component {
     // console.log('trace 11')
     // 如果不存在，才發出請求
     //if (!this.props.post) {
-      // console.log('trace 22')
-      this.props.fetchPost(post_id);
+    // console.log('trace 22')
+    this.props.fetchPost(post_id);
     //}
 
     this.props.fetchComments(post_id);
@@ -36,9 +36,6 @@ class PostDetail extends Component {
     this.props.deletePost(post_id, () => {
       this.props.history.push('/');
     });
-
-    // bad code[when the post is still being fetched from backend this component will render]
-    // this.props.deletePost(this.props.post.id)
   }
 
   onVote(postId, option) {
@@ -186,9 +183,6 @@ class PostDetail extends Component {
 }
 
 function mapStateToProps({ posts, comments }, ownProps) {
-  // console.log('[trace1] ownProps.match.params.id=', ownProps.match.params.post_id)
-  // console.log('[trace3] posts[ownProps.match.params.id]=', posts[ownProps.match.params.post_id])
-  // console.log('[trace4] posts', posts)
   // *** 故意加 posts，因為 post 變化不會自動觸發 ***
   return { post: posts[ownProps.match.params.post_id], posts, comments };
 }
