@@ -7,11 +7,13 @@ class CommentsView extends Component {
   static propTypes = {
     comments: PropTypes.object.isRequired,
     onDeleteClick: PropTypes.func.isRequired,
-    onVote: PropTypes.func.isRequired
+    onVote: PropTypes.func.isRequired,
+    postId: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
   };
 
   renderComment() {
-    const { comments, onDeleteClick, onVote } = this.props;
+    const { comments, onDeleteClick, onVote, postId, category } = this.props;
     // console.log('## posts', posts)
     return _.map(comments, comment => {
       if (!comment.deleted) {
@@ -35,7 +37,7 @@ class CommentsView extends Component {
               </button>
             </span>
             <div className="text-xs-right">
-              <Link className="btn btn-primary" to={`/posts/edit`}>
+              <Link className="btn btn-primary" to={`/comment/edit/${category}/${postId}/${comment.id}`}>
                 EDIT
               </Link>
 

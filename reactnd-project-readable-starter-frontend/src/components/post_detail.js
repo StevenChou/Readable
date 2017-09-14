@@ -83,6 +83,7 @@ class PostDetail extends Component {
 
   render() {
     const { post, comments } = this.props;
+    const { post_id, category } = this.props.match.params;
 
     // console.log('@@ check post', post);
     // *** 當 component 第一次 render 時，post is undefined!!
@@ -136,6 +137,8 @@ class PostDetail extends Component {
           comments={comments}
           onDeleteClick={this.deleteCommentClick.bind(this)}
           onVote={this.voteComment.bind(this)}
+          category={category}
+          postId={post_id}
         />
         <hr/>
         <form onSubmit={this.handleSubmit} className="form-inline">
