@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
-import { fetchCategoryPosts, deletePost, cateVote, cateOrderBy } from './../actions';
+import { fetchCategoryPosts, deletePost, cateVote, cateOrderBy, fetchCateCommentsMa } from './../actions';
 import ListView from './list_view';
 
 class PostsCategory extends Component {
+  constructor(props) {
+    super(props)
+    this.flag = false
+    this.curCategory = null
+    this.preCategory = null
+  }
+
   componentDidMount() {
     const { category } = this.props.match.params;
     this.props.fetchCategoryPosts(category);
+
+    this.flag = false
+    this.curCategory = category
   }
 
   deleteClick(postId) {
@@ -29,10 +40,25 @@ class PostsCategory extends Component {
     this.props.cateOrderBy(attr)
   };
 
+  combCommentNum(posts) {
+    const postKeys = _.keys(posts)
+    _.forEach(postKeys, (key) => {
+      this.props.fetchCateCommentsMa(key)
+    })
+  }
+
   render() {
     const { category } = this.props.match.params
     const { categoryPosts } = this.props;
     const backURL = `/posts/new/${category}`;
+
+    if (!_.isEmpty(categoryPosts) && this.flag === false) {
+      if (this.preCategory !== this.curCategory) {
+        this.combCommentNum(categoryPosts)
+        this.flag = true
+        this.preCategory = category
+      }
+    }
 
     return (
       <div>
@@ -71,5 +97,6 @@ export default connect(mapStateToProps, {
   fetchCategoryPosts,
   deletePost,
   cateVote,
-  cateOrderBy
+  cateOrderBy,
+  fetchCateCommentsMa
 })(PostsCategory);

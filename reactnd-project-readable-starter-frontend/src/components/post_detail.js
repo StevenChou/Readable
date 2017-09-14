@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import serializeForm from 'form-serialize';
+import _ from 'lodash';
 
 import { _uuid } from '../utils/helpers';
 
@@ -105,7 +106,7 @@ class PostDetail extends Component {
         <h3>Title: {post.title}</h3>
         <h6>Body: {post.body}</h6>
         <h6>Author: {post.author}</h6>
-        <h6>Comments: {}</h6>
+        <h6>Comments: {_.keys(comments).length}</h6>
         <h6>Score: {post.voteScore}</h6>
         <h6>
           Vote:<button

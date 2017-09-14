@@ -20,7 +20,7 @@ class ListView extends Component {
           <li className="list-group-item" key={post.id}>
             <Link to={`/${post.category}/${post.id}`}>Title:{post.title}</Link>
             <span className="span-margin">|Author:{post.author}</span>
-            <span className="span-margin">|Comments:</span>
+            <span className="span-margin">|Comments:{post.commNum}</span>
             <span className="span-margin">|Score:{post.voteScore}</span>
             <span className="span-margin">
               |Vote:<button

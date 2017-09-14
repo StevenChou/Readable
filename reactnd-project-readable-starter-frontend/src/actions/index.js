@@ -11,6 +11,8 @@ export const CATE_VOTE = 'cate_vote';
 export const COMMENT_VOTE = 'comment_vote';
 export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
 export const FETCH_COMMENTS = 'fetch_comments';
+export const FETCH_COMMENTS_MA = 'fetch_comments_ma';
+export const FETCH_CATE_COMMENTS_MA = 'fetch_cate_comments_ma'
 export const ADD_COMMENT = 'add_comment';
 export const ORDER_BY = 'order_by';
 export const CATE_ORDER_BY = 'cate_order_by';
@@ -119,6 +121,48 @@ export function fetchComments(id) {
   });
   return {
     type: FETCH_COMMENTS,
+    payload: request
+  };
+}
+
+// action creator
+export function fetchCommentsMa(id) {
+  // const request = axios({
+  //   method: 'get',
+  //   url: `${api}/posts/${id}/comments`,
+  //   headers: {
+  //     ...headers
+  //   }
+  // });
+
+  const request = fetch(`${api}/posts/${id}/comments`, { headers })
+  .then(res => {
+    return res.json()
+  })
+
+  return {
+    type: FETCH_COMMENTS_MA,
+    payload: request
+  };
+}
+
+// action creator
+export function fetchCateCommentsMa(id) {
+  // const request = axios({
+  //   method: 'get',
+  //   url: `${api}/posts/${id}/comments`,
+  //   headers: {
+  //     ...headers
+  //   }
+  // });
+
+  const request = fetch(`${api}/posts/${id}/comments`, { headers })
+  .then(res => {
+    return res.json()
+  })
+
+  return {
+    type: FETCH_CATE_COMMENTS_MA,
     payload: request
   };
 }

@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
-import { fetchCategories, fetchPosts, deletePost, vote, orderBy } from './../actions';
+import { fetchCategories, fetchPosts, deletePost, vote, orderBy, fetchCommentsMa } from './../actions';
 import ListView from './list_view';
 
 class PostsList extends Component {
+  constructor(props) {
+    super(props)
+    this.flag = false
+  }
+
   componentDidMount() {
+    // router 切回來其實物件還是存在，但會再執行 componentDidMount
+    this.flag = false
     this.props.fetchCategories();
     this.props.fetchPosts();
   }
@@ -43,8 +51,22 @@ class PostsList extends Component {
     this.props.orderBy(attr)
   };
 
+  combCommentNum(posts) {
+    const postKeys = _.keys(posts)
+    _.forEach(postKeys, (key) => {
+      console.log(key)
+      // 改 state posts ok?
+      this.props.fetchCommentsMa(key)
+    })
+  }
+
   render() {
     const { posts } = this.props;
+
+    if (!_.isEmpty(posts) && this.flag === false) {
+      this.combCommentNum(posts)
+      this.flag = true
+    }
 
     return (
       <div>
@@ -88,5 +110,6 @@ export default connect(mapStateToProps, {
   fetchPosts,
   deletePost,
   vote,
-  orderBy
+  orderBy,
+  fetchCommentsMa
 })(PostsList);
