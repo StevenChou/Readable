@@ -5,18 +5,20 @@ import serializeForm from 'form-serialize';
 import _ from 'lodash';
 
 import { _uuid } from '../utils/helpers';
-import PageNotFound from './page_not_found'
+import PageNotFound from './page_not_found';
 
-import {
-  fetchPost,
-  deletePost,
-  vote,
-  fetchComments,
-  commentVote,
-  deleteComment,
-  addComment,
-  commOrderBy
-} from './../actions';
+// import {
+//   fetchPost,
+//   deletePost,
+//   vote,
+//   fetchComments,
+//   commentVote,
+//   deleteComment,
+//   addComment,
+//   commOrderBy
+// } from './../actions';
+
+import * as actions from './../actions';
 import CommentsView from './comments_view';
 
 class PostDetail extends Component {
@@ -47,14 +49,14 @@ class PostDetail extends Component {
   }
 
   deleteCommentClick(commentId) {
-    console.log('trace commentId', commentId);
+    // console.log('trace commentId', commentId);
     this.props.deleteComment(commentId, () => {
       // this.props.history.push('/');
     });
   }
 
   voteComment(commentId, option) {
-    console.log('trace voteComment', commentId, option);
+    // console.log('trace voteComment', commentId, option);
     this.props.commentVote(commentId, option, () => {
       // this.props.history.push('/');
     });
@@ -85,7 +87,7 @@ class PostDetail extends Component {
     // console.log('@@ check post', post);
     // *** 當 component 第一次 render ｀，post is undefined!!
     if (!post || post.deleted === true) {
-      console.log('無值', post)
+      // console.log('無值', post)
       return <PageNotFound />;
     }
 
@@ -189,13 +191,15 @@ function mapStateToProps({ posts, comments }, ownProps) {
   return { post: posts[ownProps.match.params.post_id], posts, comments };
 }
 
-export default connect(mapStateToProps, {
-  fetchPost,
-  deletePost,
-  vote,
-  fetchComments,
-  commentVote,
-  deleteComment,
-  addComment,
-  commOrderBy
-})(PostDetail);
+// export default connect(mapStateToProps, {
+//   fetchPost,
+//   deletePost,
+//   vote,
+//   fetchComments,
+//   commentVote,
+//   deleteComment,
+//   addComment,
+//   commOrderBy
+// })(PostDetail);
+
+export default connect(mapStateToProps, actions)(PostDetail);
