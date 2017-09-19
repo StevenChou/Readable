@@ -15,7 +15,7 @@ class ListView extends Component {
     const { posts, onDeleteClick, onVote, back } = this.props;
     // console.log('## posts', posts)
     return _.map(posts, post => {
-      if (!post.deleted) {
+      if (!post.deleted && post.id !== undefined) {
         return (
           <li className="list-group-item" key={post.id}>
             <Link to={`/${post.category}/${post.id}`}>Title:{post.title}</Link>

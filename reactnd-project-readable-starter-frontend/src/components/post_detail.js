@@ -5,6 +5,7 @@ import serializeForm from 'form-serialize';
 import _ from 'lodash';
 
 import { _uuid } from '../utils/helpers';
+import PageNotFound from './page_not_found'
 
 import {
   fetchPost,
@@ -82,9 +83,10 @@ class PostDetail extends Component {
     const { post_id, category } = this.props.match.params;
 
     // console.log('@@ check post', post);
-    // *** 當 component 第一次 render 時，post is undefined!!
-    if (!post) {
-      return <div>Loading...</div>;
+    // *** 當 component 第一次 render ｀，post is undefined!!
+    if (!post || post.deleted === true) {
+      console.log('無值', post)
+      return <PageNotFound />;
     }
 
     return (
