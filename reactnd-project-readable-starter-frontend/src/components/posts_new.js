@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { createPost } from './../actions';
+import { createPost } from './../actions/action_posts';
 import { _uuid } from '../utils/helpers';
 
 class PostsNew extends Component {

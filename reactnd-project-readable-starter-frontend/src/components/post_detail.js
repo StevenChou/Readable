@@ -6,7 +6,8 @@ import _ from 'lodash';
 
 import { _uuid } from '../utils/helpers';
 import PageNotFound from './page_not_found';
-import * as actions from './../actions';
+import * as actionComments from './../actions/action_comments';
+import { fetchPost, deletePost, vote } from './../actions/action_posts';
 import CommentsView from './comments_view';
 
 class PostDetail extends Component {
@@ -179,4 +180,13 @@ function mapStateToProps({ posts, comments }, ownProps) {
   return { post: posts[ownProps.match.params.post_id], posts, comments };
 }
 
-export default connect(mapStateToProps, actions)(PostDetail);
+export default connect(mapStateToProps, {
+  fetchPost,
+  deletePost,
+  vote,
+  fetchComments: actionComments.fetchComments,
+  commentVote: actionComments.commentVote,
+  deleteComment: actionComments.deleteComment,
+  addComment: actionComments.addComment,
+  commOrderBy: actionComments.commOrderBy
+})(PostDetail);

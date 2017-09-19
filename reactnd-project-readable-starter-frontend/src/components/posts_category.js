@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-import {
-  fetchCategoryPosts,
-  deletePost,
-  cateVote,
-  cateOrderBy,
-  fetchCateCommentsMa
-} from './../actions';
+// import {
+//   fetchCategoryPosts,
+//   deletePost,
+//   cateVote,
+//   cateOrderBy,
+//   fetchCateCommentsMa
+// } from './../actions/action_categoryPosts';
+
+import * as actionCategoryPosts from './../actions/action_categoryPosts';
 import ListView from './list_view';
 
 class PostsCategory extends Component {
@@ -106,10 +108,4 @@ function mapStateToProps(state) {
   return { categoryPosts: state.categoryPosts };
 }
 
-export default connect(mapStateToProps, {
-  fetchCategoryPosts,
-  deletePost,
-  cateVote,
-  cateOrderBy,
-  fetchCateCommentsMa
-})(PostsCategory);
+export default connect(mapStateToProps, actionCategoryPosts)(PostsCategory);

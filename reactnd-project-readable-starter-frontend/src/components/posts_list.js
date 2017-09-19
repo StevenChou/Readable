@@ -3,14 +3,29 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
+// import {
+//   fetchCategories,
+//   fetchPosts,
+//   deletePost,
+//   vote,
+//   orderBy,
+//   fetchCommentsMa
+// } from './../actions';
+
 import {
-  fetchCategories,
-  fetchPosts,
-  deletePost,
-  vote,
-  orderBy,
-  fetchCommentsMa
-} from './../actions';
+  fetchCategories
+} from './../actions/action_categories';
+
+// import { fetchPosts,
+//     deletePost,
+//     vote,
+//     orderBy,
+//     fetchCommentsMa
+// } from './../actions/action_posts'
+
+import * as actionPosts from './../actions/action_posts'
+
+
 import ListView from './list_view';
 
 class PostsList extends Component {
@@ -118,9 +133,9 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
   fetchCategories,
-  fetchPosts,
-  deletePost,
-  vote,
-  orderBy,
-  fetchCommentsMa
+  fetchPosts: actionPosts.fetchPosts,
+  deletePost: actionPosts.deletePost,
+  vote: actionPosts.vote,
+  orderBy: actionPosts.orderBy,
+  fetchCommentsMa: actionPosts.fetchCommentsMa
 })(PostsList);

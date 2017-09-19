@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import serializeForm from 'form-serialize';
 
-import { editPost } from './../actions';
+import { editPost } from './../actions/action_posts';
 
 class PostEdit extends Component {
   handleSubmit = event => {
