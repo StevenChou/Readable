@@ -14,6 +14,8 @@ import PostsNew from './components/posts_new';
 import PostDetail from './components/post_detail';
 import CommentEdit from './components/comment_edit';
 import PostEdit from './components/post_edit';
+import PageNotFound from './components/page_not_found';
+
 import registerServiceWorker from './registerServiceWorker';
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
@@ -36,6 +38,7 @@ ReactDOM.render(
         <Route path="/:category/:post_id" component={PostDetail} />
         <Route path="/:category" component={PostsCategory} />
         <Route path="/" component={PostsList} />
+        <Route component={PageNotFound} />
       </Switch>
     </BrowserRouter>
   </Provider>,
