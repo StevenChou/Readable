@@ -6,7 +6,7 @@ import {
   CATE_VOTE,
   CATE_ORDER_BY,
   FETCH_CATE_COMMENTS_MA
-} from './../actions';
+} from './../actions/type';
 
 export default function(state = {}, action) {
   switch (action.type) {

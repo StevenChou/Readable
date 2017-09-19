@@ -6,18 +6,6 @@ import _ from 'lodash';
 
 import { _uuid } from '../utils/helpers';
 import PageNotFound from './page_not_found';
-
-// import {
-//   fetchPost,
-//   deletePost,
-//   vote,
-//   fetchComments,
-//   commentVote,
-//   deleteComment,
-//   addComment,
-//   commOrderBy
-// } from './../actions';
-
 import * as actions from './../actions';
 import CommentsView from './comments_view';
 
@@ -190,16 +178,5 @@ function mapStateToProps({ posts, comments }, ownProps) {
   // *** 故意加 posts，因為 post 變化不會自動觸發 ***
   return { post: posts[ownProps.match.params.post_id], posts, comments };
 }
-
-// export default connect(mapStateToProps, {
-//   fetchPost,
-//   deletePost,
-//   vote,
-//   fetchComments,
-//   commentVote,
-//   deleteComment,
-//   addComment,
-//   commOrderBy
-// })(PostDetail);
 
 export default connect(mapStateToProps, actions)(PostDetail);

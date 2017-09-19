@@ -7,7 +7,7 @@ import {
   VOTE,
   ORDER_BY,
   FETCH_COMMENTS_MA
-} from './../actions';
+} from './../actions/type';
 
 // receive previous state
 // 設定 state 初始值

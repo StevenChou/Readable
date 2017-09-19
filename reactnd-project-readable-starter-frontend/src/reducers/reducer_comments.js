@@ -6,7 +6,7 @@ import {
   DELETE_COMMENT,
   ADD_COMMENT,
   COMM_ORDER_BY
-} from './../actions';
+} from './../actions/type';
 
 export default function(state = {}, action) {
   switch (action.type) {

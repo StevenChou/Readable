@@ -1,24 +1,6 @@
 import axios from 'axios';
 
-export const FETCH_CATEGORIES = 'fetch_categories';
-export const CREATE_POST = 'create_post';
-export const FETCH_POSTS = 'fetch_posts';
-export const FETCH_POST = 'fetch_post';
-export const DELETE_POST = 'delete_post';
-export const DELETE_COMMENT = 'delete_comment';
-export const VOTE = 'vote';
-export const CATE_VOTE = 'cate_vote';
-export const COMMENT_VOTE = 'comment_vote';
-export const FETCH_CATEGORY_POSTS = 'fetch_category_posts';
-export const FETCH_COMMENTS = 'fetch_comments';
-export const FETCH_COMMENTS_MA = 'fetch_comments_ma';
-export const FETCH_CATE_COMMENTS_MA = 'fetch_cate_comments_ma';
-export const ADD_COMMENT = 'add_comment';
-export const ORDER_BY = 'order_by';
-export const CATE_ORDER_BY = 'cate_order_by';
-export const COMM_ORDER_BY = 'comm_order_by';
-export const EDIT_COMMENT = 'edit_comment';
-export const EDIT_POST = 'edit_post';
+import * as TYPE from './type';
 
 const api = 'http://localhost:3001';
 const headers = {
@@ -33,7 +15,7 @@ export function fetchCategories() {
     .then(data => data.categories);
 
   return {
-    type: FETCH_CATEGORIES,
+    type: TYPE.FETCH_CATEGORIES,
     payload: request
   };
 }
@@ -51,7 +33,7 @@ export function createPost(values, callback) {
   }).then(() => callback());
 
   return {
-    type: CREATE_POST,
+    type: TYPE.CREATE_POST,
     payload: request
   };
 }
@@ -77,7 +59,7 @@ export function addComment(values, callback) {
   }).then(res => res.json());
 
   return {
-    type: ADD_COMMENT,
+    type: TYPE.ADD_COMMENT,
     payload: request
   };
 }
@@ -92,7 +74,7 @@ export function fetchPosts() {
     }
   });
   return {
-    type: FETCH_POSTS,
+    type: TYPE.FETCH_POSTS,
     payload: request
   };
 }
@@ -107,7 +89,7 @@ export function fetchPost(id) {
   });
 
   return {
-    type: FETCH_POST,
+    type: TYPE.FETCH_POST,
     payload: request
   };
 }
@@ -122,7 +104,7 @@ export function fetchComments(id) {
     }
   });
   return {
-    type: FETCH_COMMENTS,
+    type: TYPE.FETCH_COMMENTS,
     payload: request
   };
 }
@@ -144,7 +126,7 @@ export function fetchCommentsMa(id) {
   });
 
   return {
-    type: FETCH_COMMENTS_MA,
+    type: TYPE.FETCH_COMMENTS_MA,
     payload: request
   };
 }
@@ -166,7 +148,7 @@ export function fetchCateCommentsMa(id) {
   });
 
   return {
-    type: FETCH_CATE_COMMENTS_MA,
+    type: TYPE.FETCH_CATE_COMMENTS_MA,
     payload: request
   };
 }
@@ -182,7 +164,7 @@ export function deletePost(id, callback) {
   }).then(() => callback());
 
   return {
-    type: DELETE_POST,
+    type: TYPE.DELETE_POST,
     payload: id
   };
 }
@@ -197,7 +179,7 @@ export function deleteComment(id, callback) {
   }).then(() => callback());
 
   return {
-    type: DELETE_COMMENT,
+    type: TYPE.DELETE_COMMENT,
     payload: id
   };
 }
@@ -214,7 +196,7 @@ export function vote(id, option, callback) {
   }).then(() => callback());
 
   return {
-    type: VOTE,
+    type: TYPE.VOTE,
     payload: id,
     option: option
   };
@@ -232,7 +214,7 @@ export function cateVote(id, option, callback) {
   }).then(() => callback());
 
   return {
-    type: CATE_VOTE,
+    type: TYPE.CATE_VOTE,
     payload: id,
     option: option
   };
@@ -250,7 +232,7 @@ export function commentVote(id, option, callback) {
   }).then(() => callback());
 
   return {
-    type: COMMENT_VOTE,
+    type: TYPE.COMMENT_VOTE,
     payload: id,
     option: option
   };
@@ -266,28 +248,28 @@ export function fetchCategoryPosts(category) {
   });
 
   return {
-    type: FETCH_CATEGORY_POSTS,
+    type: TYPE.FETCH_CATEGORY_POSTS,
     payload: request
   };
 }
 
 export function orderBy(attr) {
   return {
-    type: ORDER_BY,
+    type: TYPE.ORDER_BY,
     payload: attr
   };
 }
 
 export function cateOrderBy(attr) {
   return {
-    type: CATE_ORDER_BY,
+    type: TYPE.CATE_ORDER_BY,
     payload: attr
   };
 }
 
 export function commOrderBy(attr) {
   return {
-    type: COMM_ORDER_BY,
+    type: TYPE.COMM_ORDER_BY,
     payload: attr
   };
 }
@@ -304,7 +286,7 @@ export function editComment(values, commentId, callback) {
   }).then(() => callback());
 
   return {
-    type: EDIT_COMMENT,
+    type: TYPE.EDIT_COMMENT,
     payload: request
   };
 }
@@ -321,7 +303,7 @@ export function editPost(values, postId, callback) {
   }).then(() => callback());
 
   return {
-    type: EDIT_POST,
+    type: TYPE.EDIT_POST,
     payload: request
   };
 }
