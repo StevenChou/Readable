@@ -43,7 +43,9 @@ export default function(state = {}, action) {
         // console.log('??? >> action.payload', action.payload);
         const postId = action.payload[0]['parentId'];
         const newState3 = { ...state };
+        if(newState3[postId]) {
         newState3[postId]['commNum'] = action.payload.length;
+        }
         return newState3;
       }
 

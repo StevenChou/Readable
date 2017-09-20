@@ -12,9 +12,7 @@ import _ from 'lodash';
 //   fetchCommentsMa
 // } from './../actions';
 
-import {
-  fetchCategories
-} from './../actions/action_categories';
+import { fetchCategories } from './../actions/action_categories';
 
 // import { fetchPosts,
 //     deletePost,
@@ -23,10 +21,9 @@ import {
 //     fetchCommentsMa
 // } from './../actions/action_posts'
 
-import * as actionPosts from './../actions/action_posts'
-
-
+import * as actionPosts from './../actions/action_posts';
 import ListView from './list_view';
+import Nav from './nav';
 
 class PostsList extends Component {
   constructor(props) {
@@ -41,20 +38,6 @@ class PostsList extends Component {
     this.props.fetchPosts();
   }
 
-  renderCategory() {
-    const { categories } = this.props;
-
-    if (categories !== 'undefined') {
-      return categories.map(cate => (
-        <div className="col-sm-4" key={cate.path}>
-          <Link to={`/${cate.path}`} className="category-margin">
-            {cate.name}
-          </Link>
-        </div>
-      ));
-    }
-  }
-
   deleteClick(postId) {
     // console.log('trace postId', postId);
     this.props.deletePost(postId, () => {
@@ -63,7 +46,7 @@ class PostsList extends Component {
   }
 
   vote(postId, option) {
-    console.log('trace vote', postId, option);
+    // console.log('trace vote', postId, option);
     this.props.vote(postId, option, () => {
       // this.props.history.push('/');
     });
@@ -83,7 +66,7 @@ class PostsList extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, categories } = this.props;
 
     if (!_.isEmpty(posts) && this.flag === false) {
       this.combCommentNum(posts);
@@ -93,8 +76,10 @@ class PostsList extends Component {
     return (
       <div>
         <h1 className="project-title">Readable</h1>
-        <h2 className="category-title">Categories</h2>
-        <div className="row">{this.renderCategory()}</div>
+        <h2 className="category-title">Menu</h2>
+        <Nav categories={categories} />
+        <br />
+        <br />
         <h2 className="category-title">All Posts</h2>
         <div className="text-xs-right">
           <Link className="btn btn-primary" to="/posts/new/index">

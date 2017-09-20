@@ -12,10 +12,13 @@ import _ from 'lodash';
 // } from './../actions/action_categoryPosts';
 
 import * as actionCategoryPosts from './../actions/action_categoryPosts';
+import { fetchCategories } from './../actions/action_categories';
 import ListView from './list_view';
+import Nav from './nav';
 
 class PostsCategory extends Component {
   constructor(props) {
+    console.log('help');
     super(props);
     this.flag = false;
     this.curCategory = null;
@@ -24,10 +27,31 @@ class PostsCategory extends Component {
 
   componentDidMount() {
     const { category } = this.props.match.params;
+    console.log('[in didMount] category', category);
     this.props.fetchCategoryPosts(category);
-
+    this.props.fetchCategories();
     this.flag = false;
     this.curCategory = category;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { category } = this.props.match.params;
+    // 之前的 props
+    console.log('[componentWillReceiveProps] category', category);
+
+    const nextCategory = nextProps.match.params.category;
+    // 現在的 props
+    console.log(
+      '[componentWillReceiveProps] nextProps.params.category',
+      nextCategory
+    );
+
+    if (nextCategory !== category) {
+      console.log('hello');
+      this.props.fetchCategoryPosts(nextCategory);
+      this.flag = false;
+      this.curCategory = category;
+    }
   }
 
   deleteClick(postId) {
@@ -38,7 +62,6 @@ class PostsCategory extends Component {
   }
 
   vote(postId, option) {
-    console.log('trace vote', postId, option);
     this.props.cateVote(postId, option, () => {
       // this.props.history.push('/');
     });
@@ -57,7 +80,8 @@ class PostsCategory extends Component {
 
   render() {
     const { category } = this.props.match.params;
-    const { categoryPosts } = this.props;
+    console.log('[in render] category', category);
+    const { categoryPosts, categories } = this.props;
     const backURL = `/posts/new/${category}`;
 
     if (!_.isEmpty(categoryPosts) && this.flag === false) {
@@ -71,7 +95,10 @@ class PostsCategory extends Component {
     return (
       <div>
         <h1 className="project-title">Readable</h1>
-        <Link to="/">Back To Index</Link>
+        <h2 className="category-title">Menu</h2>
+        <Nav categories={categories} />
+        <br />
+        <br />
         <h2 className="category-title">Category [{category}] Posts</h2>
         <div className="text-xs-right">
           <Link className="btn btn-primary" to={backURL}>
@@ -104,8 +131,15 @@ class PostsCategory extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { categoryPosts: state.categoryPosts };
+function mapStateToProps({ categoryPosts, categories }) {
+  return { categoryPosts, categories };
 }
 
-export default connect(mapStateToProps, actionCategoryPosts)(PostsCategory);
+export default connect(mapStateToProps, {
+  fetchCategories,
+  fetchCategoryPosts: actionCategoryPosts.fetchCategoryPosts,
+  deletePost: actionCategoryPosts.deletePost,
+  cateVote: actionCategoryPosts.cateVote,
+  cateOrderBy: actionCategoryPosts.cateOrderBy,
+  fetchCateCommentsMa: actionCategoryPosts.fetchCateCommentsMa
+})(PostsCategory);

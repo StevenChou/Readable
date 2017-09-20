@@ -9,6 +9,8 @@ import PageNotFound from './page_not_found';
 import * as actionComments from './../actions/action_comments';
 import { fetchPost, deletePost, vote } from './../actions/action_posts';
 import CommentsView from './comments_view';
+import { fetchCategories } from './../actions/action_categories';
+import Nav from './nav';
 
 class PostDetail extends Component {
   componentDidMount() {
@@ -21,6 +23,7 @@ class PostDetail extends Component {
     //}
 
     this.props.fetchComments(post_id);
+    this.props.fetchCategories();
   }
 
   onDeleteClick() {
@@ -70,7 +73,7 @@ class PostDetail extends Component {
   };
 
   render() {
-    const { post, comments } = this.props;
+    const { post, comments, categories } = this.props;
     const { post_id, category } = this.props.match.params;
 
     // console.log('@@ check post', post);
@@ -83,7 +86,10 @@ class PostDetail extends Component {
     return (
       <div>
         <h1 className="project-title">Readable[Detail]</h1>
-        <Link to="/">Back To Index</Link>
+        <h2 className="category-title">Menu</h2>
+        <Nav categories={categories} />
+        <br />
+        <br />
         <button
           className="btn btn-danger pull-xs-right a-margin"
           onClick={this.onDeleteClick.bind(this)}
@@ -175,12 +181,18 @@ class PostDetail extends Component {
   }
 }
 
-function mapStateToProps({ posts, comments }, ownProps) {
+function mapStateToProps({ posts, comments, categories }, ownProps) {
   // *** 故意加 posts，因為 post 變化不會自動觸發 ***
-  return { post: posts[ownProps.match.params.post_id], posts, comments };
+  return {
+    post: posts[ownProps.match.params.post_id],
+    posts,
+    comments,
+    categories
+  };
 }
 
 export default connect(mapStateToProps, {
+  fetchCategories,
   fetchPost,
   deletePost,
   vote,
