@@ -76,7 +76,7 @@ class PostsList extends Component {
   combCommentNum(posts) {
     const postKeys = _.keys(posts);
     _.forEach(postKeys, key => {
-      console.log(key);
+      // console.log(key);
       // 改 state posts ok?
       this.props.fetchCommentsMa(key);
     });
@@ -127,8 +127,8 @@ class PostsList extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { categories: state.categories, posts: state.posts };
+function mapStateToProps({ categories, posts }) {
+  return { categories, posts };
 }
 
 export default connect(mapStateToProps, {
